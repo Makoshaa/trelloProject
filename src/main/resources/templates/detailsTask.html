@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+
+
+    <div layout:fragment="siteContent" th:if="${folderler!=null}">
+        <form th:action="@{'/update-task'}" method="post">
+            <input type="hidden" name="id" th:value="${task.getId()}">
+            <input type="hidden" name="folder_id" th:value="${folderler.getId()}">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <label>TITLE:</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="title" th:value="${task.getTitle()}">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>DESCRIPTION:</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <textarea class="form-control" name="description" th:text="${task.getDescription()}"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>STATUS:</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select name="status" class="form-control" required>
+                            <option th:value="0" th:selected="${task.status==0}">TO DO</option>
+                            <option th:value="3" th:selected="${task.status==3}">DONE</option>
+                            <option th:value="4" th:selected="${task.status==4}">FAILED</option>
+                            <option th:value="2" th:selected="${task.status==2}">IN TEST</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success mt-3">Save</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteTask"
+                        class="btn btn-danger mt-3">Delete</button>
+            </div>
+        </form>
+        <div class="modal fade" id="deleteTask" data-bs-backdrop="static" data-bs-keyboard="false"
+             tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{'/delete-task'}" method="post">
+                        <div>
+                            <input type="hidden" name="id" th:value="${task.getId()}">
+                            <input type="hidden" name="folder_id" th:value="${folderler.getId()}">
+                        </div>
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel1">Remove Task</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="text-center">Do you want to remove task?</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE
+                            </button>
+                            <button class="btn btn-danger">REMOVE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
